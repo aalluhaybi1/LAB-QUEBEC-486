@@ -1,0 +1,26 @@
+<%- include('partials/html-start.ejs') %>
+
+<h1>Welcome to Barry's Chainsaw App</h1>
+
+<p>
+    <%= chainsawData.length %>
+</p>
+
+//todo: display the contents of the chainsawData...not just the length. 
+
+<h3> add a new drink </h3>
+
+<form method="POST" action="/addSaw">
+    <label for="sawName">Saw Name</label>
+    <input name="sawName" placeholder="new saw name">
+    <input type="submit" value="add a new saw" />
+</form>
+
+
+
+
+
+
+                
+
+<%- include('partials/html-end.ejs') %>
