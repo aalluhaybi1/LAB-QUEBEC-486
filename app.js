@@ -48,7 +48,7 @@ app.get('/', async (req, res) =>  {
 
   res.render('index', {
    
-    pageTitle: "barry's saws", 
+    pageTitle: "Ayman's saws", 
     QuebecData: result 
 
   });
@@ -144,4 +144,5 @@ app.get('/name', (req,res) => {
 app.listen(port, () => {
 console.log(`Ayman's saws (quebec) app listening on port ${port}`)
 })
+
 
