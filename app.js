@@ -86,7 +86,7 @@ app.post('/updateDrink/:id', async (req, res) => {
     console.log("req.parms.id: ", req.params.id) 
     
     client.connect; 
-    const collection = client.db("chillAppz").collection("drinkz");
+    const collection = client.db("lab-quebec").collection("lab-quebec-1");
     let result = await collection.findOneAndUpdate( 
       {"_id": ObjectId(req.params.id)}, { $set: {"size": "REALLY BIG DRINK" } }
     )
@@ -102,13 +102,15 @@ app.post('/updateDrink/:id', async (req, res) => {
 
 })
 
+//////////
+
 app.post('/deleteDrink/:id', async (req, res) => {
 
   try {
     console.log("req.parms.id: ", req.params.id) 
     
     client.connect; 
-    const collection = client.db("chillAppz").collection("drinkz");
+    const collection = client.db("lab-quebec").collection("lab-quebec-1");
     let result = await collection.findOneAndDelete( 
       {
         "_id": ObjectId(req.params.id)
