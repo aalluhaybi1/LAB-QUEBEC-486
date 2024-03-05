@@ -40,7 +40,7 @@ async function getQuebecData() {
 }
 
 //reading from mongo
-app.get('/', async (req, res) =>  {
+app.get('/read', async (req, res) =>  {
 
   let result = await getQuebecData().catch(console.error); ; 
 
@@ -102,7 +102,7 @@ app.post('/updateDrink/:id', async (req, res) => {
 
 })
 
-//////////
+
 
 app.post('/deleteDrink/:id', async (req, res) => {
 
