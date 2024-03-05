@@ -13,13 +13,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(process.env.MONGO_URI, {
-  useNewUrlParser: true, // Add this option
-  useUnifiedTopology: true, // Add this option
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  },
+  }
 });
 
 async function getQuebecData() {
@@ -117,3 +115,4 @@ app.get('/name', (req, res) => {
 app.listen(port, () => {
   console.log(`Ayman saws (quebec) app listening on port ${port}`);
 });
+
