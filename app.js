@@ -13,11 +13,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(process.env.MONGO_URI, {
+  useNewUrlParser: true, // Add this option
+  useUnifiedTopology: true, // Add this option
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true,
-  }
+  },
 });
 
 async function getQuebecData() {
@@ -25,53 +27,92 @@ async function getQuebecData() {
     // Connect the client to the server (optional starting in v4.7)
     await client.connect();
     const result = await client.db("lab-quebec").collection("lab-quebec-1").find().toArray();
-    console.log("Mongo call await inside function: ", result);
+    console.log("mongo call await inside f/n: ", result);
     return result;
   } catch (err) {
     console.log("getQuebecData() error: ", err);
-    throw err; // Propagate the error to the caller
   } finally {
-    // Ensure that the client will close when you finish/error
-    await client.close();
+    // Ensures that the client will close when you finish/error
+    // await client.close();
   }
 }
 
-// Reading from MongoDB
+// Reading from mongo
 app.get('/', async (req, res) => {
-  try {
-    let result = await getQuebecData();
-    console.log("getQuebecData() Result: ", result);
+  let result = await getQuebecData().catch(console.error);
 
-    res.render('index', {
-      pageTitle: "Ayman's saws",
-      QuebecData: result
-    });
-  } catch (err) {
-    console.error("Error in GET /:", err);
-    res.status(500).send("Internal Server Error");
-  }
+  console.log("getQuebecData() Result: ", result);
+
+  res.render('index', {
+    pageTitle: "Ayman's saws",
+    QuebecData: result
+  });
 });
 
-// Create to MongoDB
+// Create to mongo
 app.post('/addSaw', async (req, res) => {
   try {
     await client.connect();
     const collection = client.db("lab-quebec").collection("lab-quebec-1");
 
-    // Draw from body parser
+    // Draws from body parser
     console.log(req.body);
 
     await collection.insertOne(req.body);
     res.redirect('/');
   } catch (err) {
-    console.error("Error in POST /addSaw:", err);
-    res.status(500).send("Internal Server Error");
+    console.log(err);
   } finally {
     await client.close();
   }
 });
 
-// Other CRUD routes...
+app.post('/updateDrink/:id', async (req, res) => {
+  try {
+    console.log("req.params.id: ", req.params.id);
+    await client.connect();
+    const collection = client.db("chillAppz").collection("drinkz");
+    let result = await collection.findOneAndUpdate(
+      { "_id": ObjectId(req.params.id) },
+      { $set: { "size": "REALLY BIG DRINK" } }
+    )
+      .then(result => {
+        console.log(result);
+        res.redirect('/');
+      })
+      .catch(error => console.error(error));
+  } finally {
+    await client.close();
+  }
+});
+
+app.post('/deleteDrink/:id', async (req, res) => {
+  try {
+    console.log("req.params.id: ", req.params.id);
+    await client.connect();
+    const collection = client.db("chillAppz").collection("drinkz");
+    let result = await collection.findOneAndDelete(
+      { "_id": ObjectId(req.params.id) }
+    )
+      .then(result => {
+        console.log(result);
+        res.redirect('/');
+      })
+      .catch(error => console.error(error));
+  } finally {
+    await client.close();
+  }
+});
+
+app.get('/name', (req, res) => {
+  console.log("in get to slash name:", req.query.ejsFormName);
+  myTypeServer = req.query.ejsFormName;
+
+  res.render('index', {
+    myTypeClient: myTypeServer,
+    myResultClient: "myResultServer"
+  });
+});
 
 app.listen(port, () => {
   console.log(`Ayman saws (quebec) app listening on port ${port}`);
