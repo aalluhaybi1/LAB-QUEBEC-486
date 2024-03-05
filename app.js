@@ -20,7 +20,7 @@ const client = new MongoClient(process.env.MONGO_URI, {
   }
 });
 
-async function getChainsawData() {
+async function getQuebecData() {
   try {
     // Connect the client to the server (optional starting in v4.7)
     await client.connect();
@@ -28,7 +28,7 @@ async function getChainsawData() {
     console.log("mongo call await inside f/n: ", result);
     return result;
   } catch (err) {
-    console.log("getChainsawData() error: ", err);
+    console.log("getQuebecData() error: ", err);
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
@@ -37,13 +37,13 @@ async function getChainsawData() {
 
 // Reading from mongo
 app.get('/', async (req, res) => {
-  let result = await getChainsawData().catch(console.error);
+  let result = await getQuebecData().catch(console.error);
 
-  console.log("getChainsawData() Result: ", result);
+  console.log("getQuebecData() Result: ", result);
 
   res.render('index', {
-    pageTitle: "barry's saws",
-    chainsawData: result
+    pageTitle: "Ayman's saws",
+    QuebecData: result
   });
 });
 
@@ -113,5 +113,5 @@ app.get('/name', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`barrys saws (quebec) app listening on port ${port}`);
+  console.log(`Ayman saws (quebec) app listening on port ${port}`);
 });

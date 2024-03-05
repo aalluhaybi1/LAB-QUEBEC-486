@@ -1,26 +1,28 @@
 <%- include('partials/html-start.ejs') %>
 
-<h1>Welcome to Barry's Chainsaw App</h1>
+<h1>Welcome to Ayman's Quebec App</h1>
 
 <p>
-    <%= chainsawData.length %>
+    <%= QuebecData.length %>
 </p>
 
-//todo: display the contents of the chainsawData...not just the length. 
+<!-- Display the contents of QuebecData -->
+<ul>
+    <% for (let item of QuebecData) { %>
+        <li>
+            <strong>Saw Name:</strong> <%= item.sawName %>, <strong>Other Property:</strong> <%= item.otherProperty %>
+            <!-- Adjust the property names based on the actual structure of your data -->
+        </li>
+    <% } %>
+</ul>
 
-<h3> add a new drink </h3>
-
+<!-- Form for adding a new saw -->
+<h3>Add a new saw</h3>
 <form method="POST" action="/addSaw">
     <label for="sawName">Saw Name</label>
-    <input name="sawName" placeholder="new saw name">
-    <input type="submit" value="add a new saw" />
+    <input name="sawName" placeholder="New saw name">
+    <!-- Add more input fields for other properties if needed -->
+    <input type="submit" value="Add a new saw" />
 </form>
-
-
-
-
-
-
-                
 
 <%- include('partials/html-end.ejs') %>
