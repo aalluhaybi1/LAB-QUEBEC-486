@@ -40,7 +40,7 @@ async function getQuebecData() {
 }
 
 //reading from mongo
-app.get('/read', async (req, res) =>  {
+app.get('/', async (req, res) =>  {
 
   let result = await getQuebecData().catch(console.error); ; 
 
